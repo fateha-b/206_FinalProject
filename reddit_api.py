@@ -1,6 +1,7 @@
 
 import praw
 import sqlite3
+import os
 from datetime import datetime
 
 REDDIT_CLIENT_ID = '5PNl2SuITto3biTpbqHxnw'
@@ -23,6 +24,8 @@ LIMIT_PER_RUN = 25
 # Connect to project database
 conn = sqlite3.connect('final_project.db')
 cur = conn.cursor()
+# DB_NAME = "final_project.db"
+# # print(os.path.abspath("final_project.db"))
 
 cur.execute('''
 CREATE TABLE IF NOT EXISTS RedditPosts (
