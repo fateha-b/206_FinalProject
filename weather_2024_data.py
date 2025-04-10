@@ -2,8 +2,9 @@ import sqlite3
 import requests
 from datetime import datetime, timedelta
 
+
 # Constants
-DB_NAME = "annarbor_weather_data_2024.db"
+DB_NAME = "final_project.db"
 LAT = 42.2808
 LON = -83.7430
 BATCH_SIZE = 25
