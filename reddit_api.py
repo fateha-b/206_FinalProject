@@ -44,6 +44,14 @@ conn.commit()
 def fetch_and_store(keyword):
     count = 0
     for post in reddit.subreddit('all').search(keyword, sort='new', limit=LIMIT_PER_RUN*2):
+        post_datetime = datetime.utcfromtimestamp(post.created_utc)
+
+        print(f"{post.title} - {post_datetime.year}")
+
+        # storing only from 2024
+        # if post_datetime.year != 2024:
+        #     continue
+
         post_id = post.id
         title = post.title
         subreddit = post.subreddit.display_name
