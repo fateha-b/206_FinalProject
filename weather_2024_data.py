@@ -2,23 +2,23 @@ import sqlite3
 import requests
 from datetime import datetime, timedelta
 
-
 # Constants
 DB_NAME = "final_project.db"
 LAT = 42.2808
 LON = -83.7430
 BATCH_SIZE = 25
+END_DATE = datetime(2025, 4, 9)  # Set the latest date to collect data
 
 # Celsius to Fahrenheit
 def c_to_f(c):
     return (c * 9/5) + 32
 
-# Create database
+# Create the database table
 def create_db():
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS Weather2024 (
+        CREATE TABLE IF NOT EXISTS Weather2025 (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             date TEXT UNIQUE,
             temp_max TEXT,
@@ -34,17 +34,17 @@ def create_db():
 def get_next_start_date():
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
-    cur.execute("SELECT MAX(date) FROM Weather2024")
+    cur.execute("SELECT MAX(date) FROM Weather2025")
     last_date = cur.fetchone()[0]
     conn.close()
 
     if last_date:
         next_date = datetime.strptime(last_date, "%Y-%m-%d") + timedelta(days=1)
     else:
-        next_date = datetime(2024, 1, 1)
+        next_date = datetime(2025, 1, 1)
     return next_date
 
-# Fetch daily weather data from Open-Meteo
+# Fetch daily weather data
 def fetch_weather_data(start_date, days):
     end_date = start_date + timedelta(days=days - 1)
     url = (
@@ -68,6 +68,11 @@ def store_data(data):
     humidity = data['daily']['relative_humidity_2m_mean']
 
     for i in range(len(dates)):
+        # Skip missing data
+        if any(val is None for val in [temps_max[i], temps_min[i], precip[i], humidity[i]]):
+            print(f"⚠️ Skipped {dates[i]} due to missing data.")
+            continue
+
         try:
             max_f = f"{round(c_to_f(temps_max[i]), 1)} °F"
             min_f = f"{round(c_to_f(temps_min[i]), 1)} °F"
@@ -75,7 +80,7 @@ def store_data(data):
             humidity_pct = f"{humidity[i]} %"
 
             cur.execute('''
-                INSERT INTO Weather2024 (date, temp_max, temp_min, precipitation, humidity)
+                INSERT INTO Weather2025 (date, temp_max, temp_min, precipitation, humidity)
                 VALUES (?, ?, ?, ?, ?)
             ''', (dates[i], max_f, min_f, precip_mm, humidity_pct))
 
@@ -86,17 +91,22 @@ def store_data(data):
     conn.commit()
     conn.close()
 
-# Main function
+# Main controller
 def main():
     create_db()
     start_date = get_next_start_date()
 
-    if start_date.year != 2024:
-        print("🎉 All data for 2024 is already collected!")
+    # Stop if we've passed April 9, 2025
+    if start_date > END_DATE:
+        print("🎉 All available data through April 9, 2025 has been collected!")
         return
 
-    print(f"📆 Collecting data starting from {start_date.date()}...")
-    data = fetch_weather_data(start_date, BATCH_SIZE)
+    # Adjust batch size to not go past April 9
+    days_left = (END_DATE - start_date).days + 1
+    batch_size = min(BATCH_SIZE, days_left)
+
+    print(f"📆 Collecting data from {start_date.date()} to {(start_date + timedelta(days=batch_size - 1)).date()}...")
+    data = fetch_weather_data(start_date, batch_size)
     store_data(data)
 
 if __name__ == "__main__":
