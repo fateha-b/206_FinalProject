@@ -63,4 +63,4 @@ print("\nWeather2025 sample dates:")
 cur.execute('SELECT DISTINCT date FROM Weather2025 ORDER BY date DESC LIMIT 10')
 print(cur.fetchall())
 
-conn.close()
+conn.close() 
