@@ -2,7 +2,6 @@ import sqlite3
 import requests
 from datetime import datetime, timedelta
 
-
 # Constants
 DB_NAME = "final_project.db"
 LAT = 42.2808
