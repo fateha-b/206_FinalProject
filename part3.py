@@ -1,19 +1,6 @@
-# part3.py
-
-"""
-Final Project - Part 3: Data Processing
-This file performs data selection, joins, and calculations across all three APIs:
-- NYT Books (Fateha)
-- Reddit (Sarina)
-- Weather (Najmul)
-
-Each section is labeled by group member.
-Results will be saved to a text file as required for Part 3.
-"""
-
 import sqlite3
 
-# === SETUP: Connect to database ===
+# connect to database
 DB_NAME = "final_project.db"
 
 # ----------------------------------------------------
