@@ -40,20 +40,21 @@ CREATE TABLE IF NOT EXISTS RedditPosts (
 ''')
 conn.commit()
 
-SPECIFIC_DATES = ['2025-04-11', '2025-04-12', '2025-04-13']
+# SPECIFIC_DATES = ['2025-04-11', '2025-04-12', '2025-04-13']
 
 def fetch_and_store(keyword, target_date=None):
     count = 0
 
-    if target_date:
-        start_date = datetime.strptime(target_date, "%Y-%m-%d")
-        end_date = start_date + timedelta(days=1)
-    else:
-        start_date = datetime.utcnow()
-        end_date = start_date + timedelta(days=1)
+### attempting to search for old dates for more data, didnt work
+    # if target_date:
+    #     start_date = datetime.strptime(target_date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    #     end_date = start_date + timedelta(days=1)
+    # else:
+    #     start_date = datetime.utcnow()
+    #     end_date = start_date + timedelta(days=1)
     
     for post in reddit.subreddit('all').search(keyword, sort='new', limit=LIMIT_PER_RUN*2):
-        post_datetime = datetime.fromtimestamp(post.created_utc)
+        post_datetime = datetime.fromtimestamp(post.created_utc, tz=timezone.utc)
 
         # print(f"{post.title} - {post_datetime.year}")
 
@@ -64,7 +65,7 @@ def fetch_and_store(keyword, target_date=None):
         post_id = post.id
         title = post.title
         subreddit = post.subreddit.display_name
-        date = datetime.fromtimestamp(post.created_utc).strftime('%Y-%m-%d')
+        date = datetime.fromtimestamp(post.created_utc, tz=timezone.utc)
         upvotes = post.score
         num_comments = post.num_comments
 
@@ -83,23 +84,24 @@ def fetch_and_store(keyword, target_date=None):
 
     print(f"{count} new posts added for keyword: {keyword}")
 
-for target_date in SPECIFIC_DATES:
-    for kw in KEYWORDS:
-        fetch_and_store(kw, target_date)
+### attempting to search for old dates for more data, didnt work
+# for target_date in SPECIFIC_DATES:
+#     for kw in KEYWORDS:
+#         fetch_and_store(kw, target_date)
 
 for kw in KEYWORDS:
     fetch_and_store(kw)
 
 
-def test_entries_for_specific_dates():
-    for target_date in SPECIFIC_DATES:
-        cur.execute('''
-            SELECT COUNT(*) FROM RedditPosts WHERE date = ?
-        ''', (target_date,))
-        count = cur.fetchone()[0]
-        print(f"Number of posts on {target_date}: {count}")
+# def test_entries_for_specific_dates():
+#     for target_date in SPECIFIC_DATES:
+#         cur.execute('''
+#             SELECT COUNT(*) FROM RedditPosts WHERE date = ?
+#         ''', (target_date,))
+#         count = cur.fetchone()[0]
+#         print(f"Number of posts on {target_date}: {count}")
 
 # Run the test function
-test_entries_for_specific_dates()
+# test_entries_for_specific_dates()
 
 conn.close()
