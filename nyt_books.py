@@ -9,8 +9,18 @@ os.chdir(script_dir)
 
 DB_NAME = "final_project.db"
 API_KEY = open("nyt_api.txt").read().strip()
-LIST_NAME = "graphic-books-and-manga" # genres students might be interested in
-DATE = "2025-04-10" # dates
+LIST_NAME = "series-books" 
+'''Genres: 
+advice-how-to-and-miscellaneous
+hardcover-fiction
+hardcover-nonfiction
+young-adult-hardcover
+graphic-books-and-manga
+series-books
+education
+business-books
+'''
+DATE = "2025-01-23" # dates
 
 def drop_books_table():
     conn = sqlite3.connect(DB_NAME)
