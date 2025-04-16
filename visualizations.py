@@ -35,3 +35,25 @@ plt.axis('off')
 plt.title("Most Common Words in Reddit Posts (Keywords: student, college, campus)", fontsize=14)
 plt.tight_layout()
 plt.show()
+
+## part 5: precipitation line chart ###
+
+cur.execute('''
+    SELECT date, precipitation
+    FROM Weather2025
+    ORDER BY date ASC
+''')
+
+rows = cur.fetchall()
+dates = [row[0] for row in rows]
+precip = [row[1] for row in rows]
+
+plt.figure(figsize=(14, 6))
+plt.plot(dates, precip, color='blue', linewidth=2)
+plt.xlabel("Date", fontsize=12)
+plt.ylabel("Precipitation (mm)", fontsize=12)
+plt.title("Daily Precipitation in Ann Arbor (2025)", fontsize=14)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.grid(True)
+plt.show()
