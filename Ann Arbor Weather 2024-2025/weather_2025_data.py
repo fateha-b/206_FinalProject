@@ -108,6 +108,7 @@ def main():
     print(f"📆 Collecting data from {start_date.date()} to {(start_date + timedelta(days=batch_size - 1)).date()}...")
     data = fetch_weather_data(start_date, batch_size)
     store_data(data)
+    
 
 if __name__ == "__main__":
     main()

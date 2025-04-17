@@ -1,17 +1,24 @@
---- Book Genre Trends by Weather (Fateha) ---
-Date: 2025-01-12, Weather: 1.8 mm, Genre/List: Business Books, Count: 6, Avg Rank: 7.17
-Date: 2025-01-12, Weather: 1.8 mm, Genre/List: Hardcover Fiction, Count: 9, Avg Rank: 9.89
-Date: 2025-01-12, Weather: 1.8 mm, Genre/List: Young Adult Hardcover, Count: 6, Avg Rank: 6.33
-Date: 2025-01-26, Weather: 0.0 mm, Genre/List: Series Books, Count: 3, Avg Rank: 8.67
-Date: 2025-02-02, Weather: 1.7 mm, Genre/List: Hardcover Fiction, Count: 8, Avg Rank: 9.5
-Date: 2025-02-09, Weather: 0.1 mm, Genre/List: Young Adult Hardcover, Count: 3, Avg Rank: 6.33
-Date: 2025-03-09, Weather: 0.0 mm, Genre/List: Young Adult Hardcover, Count: 2, Avg Rank: 5.0
+--- Book Genre Trends with Weekly Weather Averages (Fateha) ---
+Avg Precipitation: 1.31 mm | Avg High: 44.6 °F | Avg Low: 27.2 °F
+
+Genre/List: Advice How-To and Miscellaneous, Count: 10, Avg Rank: 5.5
+Genre/List: Business Books, Count: 4, Avg Rank: 8.25
+Genre/List: Graphic Books and Manga, Count: 15, Avg Rank: 8.0
+Genre/List: Hardcover Fiction, Count: 15, Avg Rank: 8.0
+Genre/List: Hardcover Nonfiction, Count: 15, Avg Rank: 8.0
+Genre/List: Series Books, Count: 10, Avg Rank: 5.5
+Genre/List: Young Adult Hardcover, Count: 10, Avg Rank: 5.5
 
 --- Reddit Engagement by Weather (Sarina) ---
 Date: 2025-04-10, Weather: 5.2 mm, Posts: 211, Avg Upvotes: 1.47, Avg Comments: 0.89
+Date: 2025-04-14, Weather: No weather data, Posts: 387, Avg Upvotes: 1.39, Avg Comments: 0.61
+Date: 2025-04-15, Weather: No weather data, Posts: 75, Avg Upvotes: 1.88, Avg Comments: 0.52
 
 --- Weekly Weather Summary (Najmul) ---
-Weather: 0.0 mm, Days: 4
-Weather: 0.1 mm, Days: 1
-Weather: 3.9 mm, Days: 1
-Weather: 5.2 mm, Days: 1
+Clear days: 4
+Light rain days (0–2 mm): 1
+Rainy days (>2 mm): 2
+
+Avg High Temp: 44.6 °F
+Avg Low Temp: 27.2 °F
+Avg Humidity: 63.7 %
