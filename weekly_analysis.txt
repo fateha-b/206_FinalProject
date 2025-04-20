@@ -13,6 +13,7 @@ Genre/List: Young Adult Hardcover, Count: 10, Avg Rank: 5.5
 Date: 2025-04-10, Weather: 5.2 mm, Posts: 211, Avg Upvotes: 1.47, Avg Comments: 0.89
 Date: 2025-04-14, Weather: No weather data, Posts: 387, Avg Upvotes: 1.39, Avg Comments: 0.61
 Date: 2025-04-15, Weather: No weather data, Posts: 75, Avg Upvotes: 1.88, Avg Comments: 0.52
+Date: 2025-04-17, Weather: No weather data, Posts: 140, Avg Upvotes: 1.71, Avg Comments: 0.8
 
 --- Weekly Weather Summary (Najmul) ---
 Clear days: 4
