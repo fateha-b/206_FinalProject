@@ -1,5 +1,5 @@
 --- Book Genre Trends with Weekly Weather Averages (Fateha) ---
-Avg Precipitation: 1.31 mm | Avg High: 44.6 °F | Avg Low: 27.2 °F
+Avg Precipitation: 1.7 mm | Avg High: 46.1 °F | Avg Low: 28.4 °F
 
 Genre/List: Advice How-To and Miscellaneous, Count: 10, Avg Rank: 5.5
 Genre/List: Business Books, Count: 4, Avg Rank: 8.25
@@ -11,15 +11,15 @@ Genre/List: Young Adult Hardcover, Count: 10, Avg Rank: 5.5
 
 --- Reddit Engagement by Weather (Sarina) ---
 Date: 2025-04-10, Weather: 5.2 mm, Posts: 211, Avg Upvotes: 1.47, Avg Comments: 0.89
-Date: 2025-04-14, Weather: No weather data, Posts: 387, Avg Upvotes: 1.39, Avg Comments: 0.61
-Date: 2025-04-15, Weather: No weather data, Posts: 75, Avg Upvotes: 1.88, Avg Comments: 0.52
-Date: 2025-04-17, Weather: No weather data, Posts: 140, Avg Upvotes: 1.71, Avg Comments: 0.8
+Date: 2025-04-14, Weather: 0.0 mm, Posts: 387, Avg Upvotes: 1.39, Avg Comments: 0.61
+Date: 2025-04-15, Weather: 2.0 mm, Posts: 75, Avg Upvotes: 1.88, Avg Comments: 0.52
+Date: 2025-04-17, Weather: 0.0 mm, Posts: 140, Avg Upvotes: 1.71, Avg Comments: 0.8
 
 --- Weekly Weather Summary (Najmul) ---
 Clear days: 4
 Light rain days (0–2 mm): 1
-Rainy days (>2 mm): 2
+Rainy days (>2 mm): 3
 
-Avg High Temp: 44.6 °F
-Avg Low Temp: 27.2 °F
-Avg Humidity: 63.7 %
+Avg High Temp: 46.1 °F
+Avg Low Temp: 28.4 °F
+Avg Humidity: 63.4 %

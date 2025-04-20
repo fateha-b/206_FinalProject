@@ -20,7 +20,7 @@ series-books
 education
 business-books
 '''
-DATE = "2025-04-06" # dates
+DATE = "2025-04-13" # dates
 
 def drop_books_table():
     conn = sqlite3.connect(DB_NAME)

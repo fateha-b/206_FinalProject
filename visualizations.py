@@ -2,6 +2,7 @@ import sqlite3
 import os
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -39,21 +40,64 @@ plt.show()
 
 ## part 5: precipitation line chart ###
 cur.execute('''
-    SELECT date, precipitation
-    FROM Weather2024
+    SELECT date, CAST(REPLACE(precipitation, ' mm', '') AS REAL)
+    FROM Weather2025
+    WHERE date BETWEEN '2025-04-10' AND '2025-04-16'
     ORDER BY date ASC
 ''')
 
 rows = cur.fetchall()
-dates = [row[0] for row in rows]
+dates = [datetime.strptime(row[0], "%Y-%m-%d").strftime("%b %d") for row in rows]
 precip = [row[1] for row in rows]
 
-plt.figure(figsize=(14, 6))
-plt.plot(dates, precip, color='blue', linewidth=2)
-plt.xlabel("Date", fontsize=12)
-plt.ylabel("Precipitation (mm)", fontsize=12)
-plt.title("Daily Precipitation in Ann Arbor (2024)", fontsize=14)
-plt.xticks(rotation=45)
+# Plot
+plt.figure(figsize=(10, 5))
+plt.plot(dates, precip, marker='o', color='royalblue', linewidth=2)
+plt.title("Daily Precipitation in Ann Arbor (Apr 10–16)", fontsize=14)
+plt.xlabel("Date")
+plt.ylabel("Precipitation (mm)")
+plt.grid(True, linestyle='--', alpha=0.6)
+
+# Annotate April 10
+if "Apr 10" in dates:
+    i = dates.index("Apr 10")
+    plt.annotate("📌 April 10", xy=(dates[i], precip[i]), xytext=(dates[i], precip[i]+1),
+                 ha='center', arrowprops=dict(arrowstyle='->', color='gray'))
+
 plt.tight_layout()
-plt.grid(True)
+plt.show()
+
+### part 6: NYT Genre Frequency + Weather Summary (Fateha) ###
+
+cur.execute('''
+    SELECT list_name, COUNT(*) AS genre_count
+    FROM Books
+    WHERE published_date = '2025-04-13'
+    GROUP BY list_name
+''')
+book_rows = cur.fetchall()
+genres = [row[0] for row in book_rows]
+counts = [row[1] for row in book_rows]
+
+cur.execute('''
+    SELECT 
+        ROUND(AVG(CAST(REPLACE(precipitation, ' mm', '') AS REAL)), 2),
+        ROUND(AVG(CAST(REPLACE(temp_max, ' °F', '') AS REAL)), 1),
+        ROUND(AVG(CAST(REPLACE(temp_min, ' °F', '') AS REAL)), 1)
+    FROM Weather2025
+    WHERE date BETWEEN '2025-04-06' AND '2025-04-13'
+''')
+avg_precip, avg_high, avg_low = cur.fetchone()
+
+plt.figure(figsize=(10, 6))
+plt.barh(genres, counts, color='mediumpurple')
+plt.xlabel("Number of Books")
+plt.ylabel("Genre/List Name")
+plt.title(
+    f"NYT Bestseller Genres (Week of Apr 6–13)\n"
+    f"Avg Weather: {avg_high}°F / {avg_low}°F | Precipitation: {avg_precip} mm",
+    fontsize=14
+)
+plt.tight_layout()
+plt.grid(axis='x', linestyle='--', alpha=0.5)
 plt.show()
