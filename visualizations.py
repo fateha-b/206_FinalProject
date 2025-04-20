@@ -3,6 +3,7 @@ import os
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
+
 script_dir = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_dir)
 
@@ -37,10 +38,9 @@ plt.tight_layout()
 plt.show()
 
 ## part 5: precipitation line chart ###
-
 cur.execute('''
     SELECT date, precipitation
-    FROM Weather2025
+    FROM Weather2024
     ORDER BY date ASC
 ''')
 
@@ -52,7 +52,7 @@ plt.figure(figsize=(14, 6))
 plt.plot(dates, precip, color='blue', linewidth=2)
 plt.xlabel("Date", fontsize=12)
 plt.ylabel("Precipitation (mm)", fontsize=12)
-plt.title("Daily Precipitation in Ann Arbor (2025)", fontsize=14)
+plt.title("Daily Precipitation in Ann Arbor (2024)", fontsize=14)
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.grid(True)
