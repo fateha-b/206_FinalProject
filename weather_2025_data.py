@@ -7,7 +7,7 @@ DB_NAME = "final_project.db"
 LAT = 42.2808
 LON = -83.7430
 BATCH_SIZE = 25
-END_DATE = datetime(2025, 4, 19)  # Set the latest date to collect data
+END_DATE = datetime(2025, 4, 20)  # Set the latest date to collect data
 
 # Celsius to Fahrenheit
 def c_to_f(c):
