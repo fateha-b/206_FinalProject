@@ -12,8 +12,8 @@ cur = conn.cursor()
 
 # ----------------------------------------------------
 # FATEHA'S SECTION: Books + Weekly Average Weather (4/6–4/13)
-# Use NYT list dated 2025-04-13 (reflects week)
-# Use average weather from 2025-04-06 to 2025-04-13
+# Use NYT list dated 4/13
+# Use average weather (4/6–4/13)
 # ----------------------------------------------------
 cur.execute('''
     SELECT 
@@ -45,7 +45,7 @@ for row in books_results:
     )
 
 # ----------------------------------------------------
-# 🔹 SARINA'S SECTION: Reddit + Weather Analysis (4/10, 4/14, 4/15, 4/17)
+# SARINA'S SECTION: Reddit + Weather Analysis (4/10, 4/14, 4/15, 4/17)
 # ----------------------------------------------------
 cur.execute('''
     SELECT DATE(r.date) AS date_only,
@@ -70,7 +70,7 @@ for row in reddit_weather_results:
     )
 
 # ----------------------------------------------------
-# 🔹 NAJMUL'S SECTION: Weekly Weather Summary (4/6–4/13)
+# NAJMUL'S SECTION: Weekly Weather Summary (4/6–4/13)
 # ----------------------------------------------------
 cur.execute('''
     SELECT 
@@ -101,7 +101,7 @@ najmul_summary.append(f"Avg Low Temp: {avg_low} °F")
 najmul_summary.append(f"Avg Humidity: {avg_humidity} %")
 
 # ----------------------------------------------------
-# 🔸 WRITE TO TEXT FILE (ALL MEMBERS CONTRIBUTE)
+# WRITE TO TEXT FILE
 # ----------------------------------------------------
 with open("weekly_analysis.txt", "w") as f:
     f.write("\n".join(fateha_summary) + "\n\n")
