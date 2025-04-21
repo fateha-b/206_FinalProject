@@ -4,6 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 
+# set up file paths so it works no matter where we run it from
 script_dir = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_dir)
 
@@ -13,16 +14,17 @@ LIST_NAME = "series-books"
 '''Genres: 
 advice-how-to-and-miscellaneous
 hardcover-fiction
-hardcover-nonfiction
+hardcover-nonfictiona
 young-adult-hardcover
 graphic-books-and-manga
 series-books
 education
 business-books
 '''
-DATE = "2025-04-13" # dates
+DATE = "2025-04-13" # update this weekly if pulling a different date's list
 
 def drop_books_table():
+    # only use this if you need to fully reset the Books table
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS Books")
@@ -35,7 +37,7 @@ def create_tables():
     conn = sqlite3.connect(DB_NAME)
     cur = conn.cursor()
 
-    # Authors table
+    # make the Authors table if it doesn’t exist
     cur.execute('''
         CREATE TABLE IF NOT EXISTS Authors (
             author_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,6 +46,7 @@ def create_tables():
     ''')
 
     # NYTBooks table
+    # make the Books table — book_id is primary to avoid duplicates
     cur.execute('''
         CREATE TABLE IF NOT EXISTS Books (
             book_id TEXT PRIMARY KEY,
@@ -60,11 +63,13 @@ def create_tables():
     conn.close()
 
 def get_or_create_author_id(conn, cur, author_name):
+    # if the author already exists, grab their id
     cur.execute("SELECT author_id FROM Authors WHERE name = ?", (author_name,))
     row = cur.fetchone()
     if row:
         return row[0]
     else:
+        # otherwise, add them to the Authors table and return new id
         cur.execute("INSERT INTO Authors (name) VALUES (?)", (author_name,))
         conn.commit()
         return cur.lastrowid
@@ -82,19 +87,20 @@ def insert_books():
     new_books = 0
 
     for book in books:
-        book_id = book["primary_isbn13"]  # unique identifier
+        book_id = book["primary_isbn13"]   # this will be our unique key
         title = book["title"]
         author_name = book["author"]
         rank = book["rank"]
         list_name = data["results"]["list_name"]
 
-        # check for duplicates
+        # skip if book is already in the database
         cur.execute("SELECT book_id FROM Books WHERE book_id = ?", (book_id,))
         if cur.fetchone():
             continue
 
         author_id = get_or_create_author_id(conn, cur, author_name)
 
+        # insert the new book entry
         cur.execute('''
             INSERT INTO Books (book_id, title, rank, published_date, list_name, author_id)
             VALUES (?, ?, ?, ?, ?, ?)
@@ -109,7 +115,7 @@ def insert_books():
     print(f"{new_books} books inserted from NYT list.")
 
 def main():
-    # drop_books_table()
+    # drop_books_table() # only uncomment this if you want to reset the Books table
     create_tables()
     insert_books()
 
