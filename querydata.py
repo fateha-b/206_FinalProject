@@ -1,13 +1,9 @@
 import sqlite3
 import os
 
-<<<<<<< Updated upstream
-# conn = sqlite3.connect("/Users/fbushra/Documents/SI 206/206_FinalProject/final_project.db")
-=======
 script_dir = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_dir)
 
->>>>>>> Stashed changes
 conn = sqlite3.connect("final_project.db")
 cur = conn.cursor()
 
