@@ -9,4 +9,20 @@ results = cur.fetchall()
 for row in results:
     print(row)
 
+
+# Select from Reddit top 5 posts
+cur.execute('''
+SELECT title, subreddit, upvotes, keyword, date
+FROM RedditPosts
+ORDER BY upvotes DESC
+LIMIT 5
+''')
+
+results = cur.fetchall()
+
+# Display the results
+print("Top 5 Reddit Posts:")
+for row in results:
+    print(f"Title: {row[0]}\nSubreddit: {row[1]}\nUpvotes: {row[2]}\nKeyword: {row[3]}\nDate: {row[4]}\n")
+
 conn.close()
