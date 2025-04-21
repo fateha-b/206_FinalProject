@@ -67,7 +67,7 @@ if "Apr 10" in dates:
 plt.tight_layout()
 plt.show()
 
-### part 6: NYT Genre Frequency + Weather Summary (Fateha) ###
+### part 6: bar chart of NYT genre frequency + weather summary (Fateha) ###
 
 cur.execute('''
     SELECT list_name, COUNT(*) AS genre_count
