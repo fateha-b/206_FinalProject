@@ -44,15 +44,3 @@ python weather_2025_data.py
 python part3.py
 4. Run visualizations
 python visualizations.py
-
----
-Key Findings:
-Reddit activity (posts, comments) spiked on rainy days.
-Fiction and YA books were more popular during weeks with rain.
-Business and education books were more consistent during dry weeks.
-Weather seems to influence both reading behavior and online engagement.
-
-Limitations
-Reddit API does not allow historical access; we collected data on four different real-time days.
-NYT Books API gives weekly data, so we averaged weather + Reddit data accordingly.
-Reddit post volume was limited due to real-time constraints.
