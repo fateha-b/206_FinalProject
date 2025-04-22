@@ -26,7 +26,7 @@ def fetch_and_store(KEYWORDS):
     )
 
     # Connect to project database
-    conn = sqlite3.connect('final_project.db')
+    conn = sqlite3.connect('final_project2.db')
     cur = conn.cursor()
 
     # Creating table if it doesn't exist
