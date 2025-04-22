@@ -7,7 +7,7 @@ os.chdir(script_dir)
 conn = sqlite3.connect("final_project.db")
 cur = conn.cursor()
 
-cur.execute("SELECT title, author_id, published_date FROM Books ORDER BY published_date DESC LIMIT 5")
+cur.execute("SELECT title, list_name, published_date FROM Books ORDER BY published_date DESC LIMIT 5")
 results = cur.fetchall()
 
 for row in results:
