@@ -10,10 +10,10 @@ Genre/List: Series Books, Count: 10, Avg Rank: 5.5
 Genre/List: Young Adult Hardcover, Count: 10, Avg Rank: 5.5
 
 --- Reddit Engagement by Weather (Sarina) ---
-Date: 2025-04-10, Weather: 5.2, Posts: 211, Avg Upvotes: 1.47, Avg Comments: 0.89
-Date: 2025-04-14, Weather: 0.0, Posts: 387, Avg Upvotes: 1.39, Avg Comments: 0.61
-Date: 2025-04-15, Weather: 2.0, Posts: 75, Avg Upvotes: 1.88, Avg Comments: 0.52
-Date: 2025-04-17, Weather: 0.0, Posts: 140, Avg Upvotes: 1.71, Avg Comments: 0.8
+Date: 2025-04-10, Weather: 5.2, Posts: 71, Avg Upvotes: 1.52, Avg Comments: 0.82
+Date: 2025-04-14, Weather: 0.0, Posts: 121, Avg Upvotes: 1.39, Avg Comments: 0.63
+Date: 2025-04-15, Weather: 2.0, Posts: 25, Avg Upvotes: 1.16, Avg Comments: 0.4
+Date: 2025-04-17, Weather: 0.0, Posts: 54, Avg Upvotes: 2.33, Avg Comments: 0.61
 
 --- Weekly Weather Summary (Najmul) ---
 Clear days: 4

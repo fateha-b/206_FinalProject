@@ -12,61 +12,61 @@ cur = conn.cursor()
 
 # ----------------------------------------------------
 # FATEHA'S SECTION: Books + Weekly Average Weather (4/6–4/13)
-# Use NYT list dated 4/13
-# Use average weather (4/6–4/13)
 # ----------------------------------------------------
 cur.execute('''
     SELECT 
-        ROUND(AVG(CAST(REPLACE(precipitation, ' mm', '') AS REAL)), 2) AS avg_precip,
-        ROUND(AVG(CAST(REPLACE(temp_max, ' °F', '') AS REAL)), 1) AS avg_temp_max,
-        ROUND(AVG(CAST(REPLACE(temp_min, ' °F', '') AS REAL)), 1) AS avg_temp_min
+        ROUND(AVG(CAST(REPLACE(precipitation, ' mm', '') AS REAL)), 2),
+        ROUND(AVG(CAST(REPLACE(temp_max, ' °F', '') AS REAL)), 1),
+        ROUND(AVG(CAST(REPLACE(temp_min, ' °F', '') AS REAL)), 1)
     FROM Weather2025
     WHERE date BETWEEN '2025-04-06' AND '2025-04-13'
 ''')
 avg_precip, avg_temp_max, avg_temp_min = cur.fetchone()
 
 cur.execute('''
-    SELECT list_name, COUNT(*) AS genre_count, AVG(rank) AS avg_rank
-    FROM Books
-    WHERE published_date = '2025-04-13'
-    GROUP BY list_name
+    SELECT g.name, COUNT(*) AS genre_count, AVG(b.rank)
+    FROM Books b
+    JOIN Genres g ON b.genre_id = g.genre_id
+    WHERE b.year = 2025 AND b.month = 4 AND b.day = 13
+    GROUP BY g.name
 ''')
 books_results = cur.fetchall()
 
-fateha_summary = ["--- Book Genre Trends with Weekly Weather Average (Fateha) ---"]
 fateha_summary = ["--- Book Genre Trends with Weekly Weather Averages (Fateha) ---"]
 fateha_summary.append(
     f"Avg Precipitation: {avg_precip} mm | Avg High: {avg_temp_max} °F | Avg Low: {avg_temp_min} °F\n"
 )
 
-for row in books_results:
+for genre_name, count, avg_rank in books_results:
     fateha_summary.append(
-        f"Genre/List: {row[0]}, Count: {row[1]}, Avg Rank: {round(row[2], 2)}"
+        f"Genre/List: {genre_name}, Count: {count}, Avg Rank: {round(avg_rank, 2)}"
     )
 
 # ----------------------------------------------------
 # SARINA'S SECTION: Reddit + Weather Analysis (4/10, 4/14, 4/15, 4/17)
 # ----------------------------------------------------
 cur.execute('''
-    SELECT DATE(r.date) AS date_only,
+    SELECT r.year, r.month, r.day,
            w.precipitation,
-           COUNT(r.post_id) AS post_count,
-           AVG(r.upvotes) AS avg_upvotes,
-           AVG(r.num_comments) AS avg_comments
+           COUNT(r.post_id),
+           AVG(r.upvotes),
+           AVG(r.num_comments)
     FROM RedditPosts r
-    LEFT JOIN Weather2025 w ON DATE(r.date) = w.date
-    WHERE DATE(r.date) IN ('2025-04-10', '2025-04-14', '2025-04-15', '2025-04-17')
-      AND r.keyword IN ('college', 'student', 'campus')
-    GROUP BY DATE(r.date), w.precipitation
+    LEFT JOIN Weather2025 w 
+        ON DATE(r.year || '-' || printf('%02d', r.month) || '-' || printf('%02d', r.day)) = w.date
+    WHERE DATE(r.year || '-' || printf('%02d', r.month) || '-' || printf('%02d', r.day)) 
+          IN ('2025-04-10', '2025-04-14', '2025-04-15', '2025-04-17')
+    GROUP BY r.year, r.month, r.day, w.precipitation
 ''')
 reddit_weather_results = cur.fetchall()
 
 sarina_summary = ["--- Reddit Engagement by Weather (Sarina) ---"]
 for row in reddit_weather_results:
-    weather = row[1] if row[1] is not None else "No weather data"
+    date_str = f"{row[0]:04d}-{row[1]:02d}-{row[2]:02d}"
+    weather = row[3] if row[3] is not None else "No weather data"
     sarina_summary.append(
-        f"Date: {row[0]}, Weather: {weather}, Posts: {row[2]}, "
-        f"Avg Upvotes: {round(row[3], 2)}, Avg Comments: {round(row[4], 2)}"
+        f"Date: {date_str}, Weather: {weather}, Posts: {row[4]}, "
+        f"Avg Upvotes: {round(row[5], 2)}, Avg Comments: {round(row[6], 2)}"
     )
 
 # ----------------------------------------------------
@@ -74,9 +74,9 @@ for row in reddit_weather_results:
 # ----------------------------------------------------
 cur.execute('''
     SELECT 
-        SUM(CASE WHEN CAST(REPLACE(precipitation, ' mm', '') AS REAL) = 0 THEN 1 ELSE 0 END) AS clear_days,
-        SUM(CASE WHEN CAST(REPLACE(precipitation, ' mm', '') AS REAL) > 0 AND CAST(REPLACE(precipitation, ' mm', '') AS REAL) <= 2 THEN 1 ELSE 0 END) AS light_rain_days,
-        SUM(CASE WHEN CAST(REPLACE(precipitation, ' mm', '') AS REAL) > 2 THEN 1 ELSE 0 END) AS rainy_days
+        SUM(CASE WHEN CAST(REPLACE(precipitation, ' mm', '') AS REAL) = 0 THEN 1 ELSE 0 END),
+        SUM(CASE WHEN CAST(REPLACE(precipitation, ' mm', '') AS REAL) > 0 AND CAST(REPLACE(precipitation, ' mm', '') AS REAL) <= 2 THEN 1 ELSE 0 END),
+        SUM(CASE WHEN CAST(REPLACE(precipitation, ' mm', '') AS REAL) > 2 THEN 1 ELSE 0 END)
     FROM Weather2025
     WHERE date BETWEEN '2025-04-06' AND '2025-04-13'
 ''')

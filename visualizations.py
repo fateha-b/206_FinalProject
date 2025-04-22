@@ -4,7 +4,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-
+# Setup
 script_dir = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_dir)
 
@@ -12,15 +12,14 @@ DB_NAME = "final_project.db"
 conn = sqlite3.connect(DB_NAME)
 cur = conn.cursor()
 
-### part 4: reddit word cloud ###
+### PART 4: Reddit Word Cloud ###
 cur.execute('''
-    SELECT r.title
-    FROM RedditPosts r
-    JOIN Weather2025 w ON DATE(r.date) = w.date
-    WHERE r.keyword IN ('college', 'student', 'campus')
+    SELECT title
+    FROM RedditPosts
+    WHERE mentioned_college = 1 OR mentioned_student = 1 OR mentioned_campus = 1
 ''')
 titles = cur.fetchall()
-text = " ".join([t[0] for t in titles if t[0] is not None])
+text = " ".join([t[0] for t in titles if t[0]])
 
 wordcloud = WordCloud(
     width=1000,
@@ -30,7 +29,6 @@ wordcloud = WordCloud(
     max_words=100
 ).generate(text)
 
-# displaying word cloud
 plt.figure(figsize=(12, 6))
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
@@ -38,19 +36,17 @@ plt.title("Most Common Words in Reddit Posts (Keywords: student, college, campus
 plt.tight_layout()
 plt.show()
 
-## part 5: precipitation line chart ###
+### PART 5: Precipitation Line Chart ###
 cur.execute('''
     SELECT date, CAST(REPLACE(precipitation, ' mm', '') AS REAL)
     FROM Weather2025
     WHERE date BETWEEN '2025-04-10' AND '2025-04-16'
     ORDER BY date ASC
 ''')
-
 rows = cur.fetchall()
 dates = [datetime.strptime(row[0], "%Y-%m-%d").strftime("%b %d") for row in rows]
 precip = [row[1] for row in rows]
 
-# Plot
 plt.figure(figsize=(10, 5))
 plt.plot(dates, precip, marker='o', color='royalblue', linewidth=2)
 plt.title("Daily Precipitation in Ann Arbor (Apr 10–16)", fontsize=14)
@@ -58,7 +54,6 @@ plt.xlabel("Date")
 plt.ylabel("Precipitation (mm)")
 plt.grid(True, linestyle='--', alpha=0.6)
 
-# Annotate April 10
 if "Apr 10" in dates:
     i = dates.index("Apr 10")
     plt.annotate("📌 April 10", xy=(dates[i], precip[i]), xytext=(dates[i], precip[i]+1),
@@ -67,13 +62,13 @@ if "Apr 10" in dates:
 plt.tight_layout()
 plt.show()
 
-### part 6: bar chart of NYT genre frequency + weather summary (Fateha) ###
-
+### PART 6: Bar Chart of Genre Frequency + Weather Summary (Fateha) ###
 cur.execute('''
-    SELECT list_name, COUNT(*) AS genre_count
-    FROM Books
-    WHERE published_date = '2025-04-13'
-    GROUP BY list_name
+    SELECT g.name, COUNT(*) AS genre_count
+    FROM Books b
+    JOIN Genres g ON b.genre_id = g.genre_id
+    WHERE b.year = 2025 AND b.month = 4 AND b.day = 13
+    GROUP BY g.name
 ''')
 book_rows = cur.fetchall()
 genres = [row[0] for row in book_rows]
