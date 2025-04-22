@@ -33,8 +33,8 @@ We analyzed trends such as book popularity and Reddit engagement based on weathe
 
 ## ▶️ How to Run
 
-1. Install packages:
 ```bash
+1. Install packages:
 pip install requests seaborn wordcloud
 2. Run the data collection strips
 python nyt_books.py
